@@ -1,0 +1,28 @@
+name: Build Loader Spoofer
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download ahk2exe
+        run: |
+          curl -L -o ahk2exe.exe https://www.autohotkey.com/download/ahk2exe.exe
+
+      - name: Compile AHK to EXE
+        run: |
+          .\ahk2exe.exe /in yourscript.ahk /out loader.exe
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: loader-exe
+          path: loader.exe
