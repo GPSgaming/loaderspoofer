@@ -1,8 +1,6 @@
-name: Build Loader Spoofer
+name: Build AHK to EXE
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -10,16 +8,16 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout source
+        uses: actions/checkout@v4
 
-      - name: Download ahk2exe
+      - name: Install AutoHotkey v1
         run: |
-          curl -L -o ahk2exe.exe https://www.autohotkey.com/download/ahk2exe.exe
+          choco install autohotkey.portable -y
 
       - name: Compile AHK to EXE
         run: |
-          .\ahk2exe.exe /in yourscript.ahk /out loader.exe
+          "C:\ProgramData\chocolatey\lib\autohotkey.portable\tools\AutoHotkey\Compiler\Ahk2Exe.exe" /in spoof.ahk /out loader.exe
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
